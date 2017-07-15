@@ -31,6 +31,8 @@ bus = dbus.SystemBus()
 option_list = [
 		make_option("-i", "--device", action="store",
 				type="string", dest="dev_id"),
+		make_option("-s", "--discoverable", action="store_true",
+				dest="discoverable"),
 		]
 parser = OptionParser(option_list=option_list)
 
@@ -50,6 +52,13 @@ except: #try older bluez 4.98 compat code
 
 server = dbus.Interface(bus.get_object("org.bluez", adapter_path),
 						"org.bluez.NetworkServer1")
+
+hci0 = bus.get_object('org.bluez', adapter_path)
+props = dbus.Interface(hci0, 'org.freedesktop.DBus.Properties')
+discoverable = False
+if options.discoverable:
+    discoverable = True
+props.Set('org.bluez.Adapter1', 'Discoverable', discoverable)
 
 service = "nap"
 

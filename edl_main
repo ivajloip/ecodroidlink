@@ -46,7 +46,9 @@ option_list = [
 		make_option("--interface", action="store",
 				type="string", dest="interface"),
 		make_option("--use_existing_bridge", action="store",
-				type="string", dest="existing_bridge")		
+				type="string", dest="existing_bridge"),
+		make_option("-s", "--discoverable", action="store_true",
+				dest="discoverable"),
 		]
 
 parser = OptionParser(usage=usage,option_list=option_list)
